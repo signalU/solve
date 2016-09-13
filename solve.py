@@ -4,9 +4,9 @@ import sys
 from sympy.logic import simplify_logic
 from sympy import symbols
 
-# from writeDB import insert_proposition
+from writeDB import insert_proposition, insert_sentence
 from tokenizer import tokenizer
-from simplify import alias_atoms
+from simplify import disjunctive_normal_form
 # from file2 import hello
 
 
@@ -16,29 +16,51 @@ def open_an_url(url):
 
 
 def main():
-    # arguments = "(( (!a & !b) & c) | (d & ((a | b) | !(a & b) ) ) )"
-    # print("This is the beginning and I'am awesome")
-    # a = True
-    # b = False
-    # c = True
-    # d = False
-    # q = arguments.replace("!", "not ").replace("&", " and ").replace("|", " or ")
-    # print(q)
-    # f = (((not a and not b) and c) or (d and ((a or b) or not (a and b))))
-    # if f:
-    #     print("It was true")
-
     sys.stdout.write(str(sys.argv))
     sys.stdout.flush()
 
-    # print("I'am the best ever")
-    # alldata = sys.argv
     data = sys.argv[1]
-    # qwe = "sakqw"
-    # insert_proposition(data)
+
     data = data.replace("and", "&").replace("or", "|").replace("!", "~").replace(" not ", "~")
+    data = data.split("->")
+    consequent = data[1]
+    data = data[0]
+    print(data)
     atoms = tokenizer(data)
-    alias_atoms(atoms, data)
+
+    predecessor = disjunctive_normal_form(atoms, data)
+    print("")
+    print(predecessor.atoms(), "Atoms")
+    print(predecessor, "predecessor")
+    print(predecessor.args, "Arguments")
+
+    # pre = str(predecessor.args)
+    # succe = consequent
+
+    # insert_sentence(pre, succe)
+
+    # expr.args[2].args
+
+    print(predecessor.args[0].args)
+    print(predecessor.args[1].args)
+    print(len(predecessor.args))
+
+    for item in predecessor.args:
+        # item = item.args
+        # print(list
+        print(item)
+        pre = str(item)
+        succe = consequent
+        insert_sentence(pre, succe)
+
+
+        # print(list(item.atoms()))
+    # text = str(predecessor.args)
+    # print(text)
+    # # text.replace("And", "")
+    # text = text.split("And")
+    # print(text, type(text))
+
 
 
     # hello()
@@ -58,4 +80,14 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    # except OSError as err:
+    #     print("OS error: {0}".format(err))
+    # except ValueError:
+    #     print("Could not convert data to an integer.")
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        sys.stderr.write(str(sys.argv))
+        sys.stderr.flush()
+        raise

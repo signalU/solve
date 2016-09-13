@@ -18,16 +18,26 @@ def insert_proposition(name):
         # print("Element added")
 
 
+def insert_sentence(predecessor, successor):
+    sentence = {
+        'predecessor': predecessor,
+        'successor': successor
+    }
+    sentences.insert_one(sentence)
+
+
+
 client = MongoClient('mongodb://localhost:3001/')
 
 db = client['meteor']
 
 propositions = db.singleProposition
+sentences = db.sentences
 rules = db.rules
 # rule = rules.find_one()
 # print(rule)
 
-insert_proposition("python proposition")
+# insert_proposition("python proposition")
 
 
 # for rules in rules.find():

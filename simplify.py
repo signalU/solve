@@ -6,7 +6,7 @@ from sympy import S
 import sys
 
 
-def alias_atoms(atoms, sentence):
+def disjunctive_normal_form(atoms, sentence):
     # _locals = locals()
     namespace = {}
     atoms_string = ",".join(atoms)
