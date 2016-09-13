@@ -24,11 +24,11 @@ db = client['meteor']
 
 propositions = db.singleProposition
 rules = db.rules
-rule = rules.find_one()
+# rule = rules.find_one()
 # print(rule)
 
 insert_proposition("python proposition")
 
 
-for rules in rules.find():
-    print(rules)
+# for rules in rules.find():
+#     print(rules)
