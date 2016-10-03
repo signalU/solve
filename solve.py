@@ -2,9 +2,9 @@ from __future__ import print_function
 import webbrowser
 import sys
 from sympy.logic import simplify_logic
-from sympy import symbols
+from sympy import symbols, Not
 
-from writeDB import insert_proposition, insert_sentence
+from writeDB import insert_proposition, insert_sentence, insert_sentence2
 from tokenizer import tokenizer
 from simplify import disjunctive_normal_form
 # from file2 import hello
@@ -30,28 +30,52 @@ def main():
 
     predecessor = disjunctive_normal_form(atoms, data)
     print("")
-    print(predecessor.atoms(), "Atoms")
+    # print(predecessor.atoms(), "Atoms")
+    all_atoms = []
+    for item in predecessor.atoms():
+        all_atoms.append(item)
+    if consequent not in all_atoms:
+        all_atoms.append(consequent)
+
+    for item in all_atoms:
+        insert_proposition(item)
+
     print(predecessor, "predecessor")
     print(predecessor.args, "Arguments")
 
-    # pre = str(predecessor.args)
-    # succe = consequent
-
-    # insert_sentence(pre, succe)
-
-    # expr.args[2].args
-
-    print(predecessor.args[0].args)
-    print(predecessor.args[1].args)
+    # print(predecessor.args[0].args)
+    # print(predecessor.args[1].args)
     print(len(predecessor.args))
 
+    consequent_2 = []
+
+    if "~" in consequent:
+        consequent.replace("~", "")
+        consequent_2.append(consequent)
+        consequent_2.append(False)
+    else:
+        consequent_2.append(consequent)
+        consequent_2.append(True)
+
     for item in predecessor.args:
-        # item = item.args
-        # print(list
-        print(item)
+        items_predecessor = []
+        print(item.args, item.atoms(), len(item.args))
+        for element in item.args:
+            if type(element) == Not:
+                element = str(element.atoms()).replace("{", "").replace("}", "")
+                items_predecessor.append([element, False])
+            else:
+                items_predecessor.append([str(element), True])
+                # None
+
+        # consequent_2 = ["something"]
+        # print(consequent_2)
+        insert_sentence2(items_predecessor, consequent_2)
+        # print(items_predecessor)
         pre = str(item)
         succe = consequent
         insert_sentence(pre, succe)
+
 
 
         # print(list(item.atoms()))
