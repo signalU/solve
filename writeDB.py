@@ -8,9 +8,10 @@ def insert_proposition(name):
     name = str(name)
     exist = propositions.find({'name': name}).count() > 0
     # exist = False
+    # print(exist, "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!")
     if exist:
         pass
-        # print("This item already exits")
+        print("This item already exits")
     else:
         print(type(name), name)
         proposition = {
@@ -18,7 +19,7 @@ def insert_proposition(name):
             "status": True
         }
         propositions.insert_one(proposition)
-        # print("Element added")
+        print("Element added")
 
 
 def insert_sentence(predecessor, successor):
@@ -56,7 +57,7 @@ def insert_sentence2(predecessor, successor):
     rule['consequent'] = {
         # "_idConsequent":  successor[0],
         "_idConsequent":  _idConsequent,
-        "isFalse": not item[1]
+        "isFalse": not successor[1]
     }
     rules.insert_one(rule)
     print(predecessor)
